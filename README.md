@@ -7,6 +7,11 @@ ___
 ![GitHub stars](https://img.shields.io/github/stars/dorianborian/sesame-robot?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/dorianborian/sesame-robot?style=social)
 
+> [!NOTE]
+> **Hardware Replication & Makerspace Bring-Up by Soham Kadu**:  
+> This repository hosts the firmware, CAD files, and V3.1 power distribution PCB designs for the open-source Sesame Quadruped Robot originally developed by [Dorian Borian](https://github.com/dorianborian/sesame-robot).  
+> **Physical 3D printing, circuit assembly, servo calibration, and testing conducted by Soham Kadu** at Sanjivani Tinkerers' Lab.
+
 <img width="100%" height="728" alt="sesame-cover" src="https://github.com/user-attachments/assets/f0cc6ad0-135b-4515-8750-900f224ed7ae" />
 
 <p align="center">
