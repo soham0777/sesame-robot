@@ -1,3 +1,7 @@
+<p align="center"><a href="../../README.md">🏠 Home</a> · <a href="../../hardware/bom/README.md">🛒 BOM</a> · <a href="../../hardware/printing/README.md">🖨️ Print</a> · <a href="../../docs/build-guide/README.md">🔧 Build</a> · <a href="../../docs/wiring-guide/README.md">🔌 Wiring</a> · <a href="../../firmware/README.md">⚡ Firmware</a> · <a href="../../software/sesame-studio/README.md">🎬 Studio</a></p>
+
+---
+
 # CAD Files
 
 3D CAD models for the Sesame Robot Project. Files are formatted in STEP format and F360 format.

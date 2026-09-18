@@ -3,6 +3,9 @@ from tkinter import ttk, messagebox
 import json
 import os
 import ctypes
+from tkinter import filedialog
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class SesameStudioApp:
     def __init__(self, root):
@@ -16,7 +19,7 @@ class SesameStudioApp:
         except Exception:
             pass
         
-        icon_path = os.path.join(os.path.dirname(__file__), "assets", "sesame-sticker2.png")
+        icon_path = os.path.join(BASE_DIR, "assets", "sesame-sticker2.png")
         if os.name == "nt" and os.path.exists(icon_path): # this crashes on some linux
             try:
                 from PIL import Image, ImageTk
@@ -28,19 +31,21 @@ class SesameStudioApp:
                     self.root.iconphoto(True, self.icon_photo)
                 except Exception:
                     pass
-        self.root.geometry("800x1300")
+        self.root.geometry(f"800x{min(1300, self.root.winfo_screenheight() - 80)}+100+20")
+        self.root.minsize(800, 700)
         self.root.configure(bg="#121212")
+        self.frame_count = 0
 
         self.bg_color = "#121212"
         self.fg_color = "#e0e0e0"
-        self.accent_color = "#007acc"
-        self.input_bg = "#333333"
+        self.accent_color = "#ff8c42"
+        self.input_bg = "#2a2a3d"
 
         self.style = ttk.Style()
         self.style.theme_use('clam')
         self.style.configure("TLabel", background=self.bg_color, foreground=self.fg_color, font=("Segoe UI", 10))
         self.style.configure("TButton", background=self.accent_color, foreground="#ffffff", borderwidth=0, font=("Segoe UI", 10, "bold"))
-        self.style.map("TButton", background=[("active", "#005a9e")])
+        self.style.map("TButton", background=[("active", "#e67a30")])
         self.style.configure("TEntry", fieldbackground=self.input_bg, foreground=self.fg_color)
         
         self.main_frame = tk.Frame(root, bg=self.bg_color)
@@ -51,6 +56,11 @@ class SesameStudioApp:
         self.btn_help.create_oval(2, 2, 28, 28, fill="#444444", outline="#666666")
         self.btn_help.create_text(15, 15, text="?", fill="white", font=("Segoe UI", 14, "bold"))
         self.btn_help.bind("<Button-1>", lambda e: self.show_help())
+
+        tk.Label(self.main_frame, text="SESAME STUDIO", bg=self.bg_color, fg=self.accent_color,
+                 font=("Segoe UI", 20, "bold")).pack(anchor="w")
+        tk.Label(self.main_frame, text="Pose the robot, add frames, copy the code.", bg=self.bg_color, fg="#8a8fa8",
+                 font=("Segoe UI", 10)).pack(anchor="w", pady=(0, 8))
 
         self.canvas_frame = tk.Frame(self.main_frame, bg=self.bg_color)
         self.canvas_frame.pack(fill=tk.X, pady=(0, 5))
@@ -79,7 +89,7 @@ class SesameStudioApp:
 
         tk.Label(self.main_frame, text="Generated Code:", bg=self.bg_color, fg=self.fg_color, font=("Segoe UI", 12, "bold")).pack(anchor="w", pady=(10, 5))
         
-        self.code_text = tk.Text(self.main_frame, height=12, bg="#000000", fg="#569cd6", font=("Consolas", 10), insertbackground="white", bd=0, padx=10, pady=10)
+        self.code_text = tk.Text(self.main_frame, height=12, bg="#000000", fg="#9cdcfe", font=("Consolas", 10), insertbackground="white", bd=0, padx=10, pady=10)
         self.code_text.pack(fill=tk.BOTH, expand=True)
 
         if hasattr(self, 'servo_colors'):
@@ -88,6 +98,16 @@ class SesameStudioApp:
         
         self.btn_copy = tk.Button(self.main_frame, text="Copy to Clipboard", command=self.copy_code, bg="#27ae60", fg="white", font=("Segoe UI", 10, "bold"), pady=8, relief=tk.FLAT)
         self.btn_copy.pack(fill=tk.X, pady=(10, 0))
+
+        self.btn_row = tk.Frame(self.main_frame, bg=self.bg_color)
+        self.btn_row.pack(fill=tk.X, pady=(8, 0))
+        self.btn_undo = tk.Button(self.btn_row, text="Undo Last Frame", command=self.undo_frame, bg="#555555", fg="white", font=("Segoe UI", 10), pady=6, relief=tk.FLAT)
+        self.btn_undo.pack(side=tk.LEFT, expand=True, fill=tk.X, padx=(0, 5))
+        self.btn_save = tk.Button(self.btn_row, text="Save as .txt", command=self.save_code, bg="#555555", fg="white", font=("Segoe UI", 10), pady=6, relief=tk.FLAT)
+        self.btn_save.pack(side=tk.LEFT, expand=True, fill=tk.X, padx=(5, 0))
+
+        for b in (self.btn_add, self.btn_clear_code, self.btn_copy, self.btn_undo, self.btn_save):
+            self._add_hover(b)
 
         self.status_label = tk.Label(self.main_frame, text="Ready", bg=self.bg_color, fg="#888888", font=("Segoe UI", 9))
         self.status_label.pack(anchor="e", pady=(5,0))
@@ -99,8 +119,8 @@ class SesameStudioApp:
             target_w, target_h = 740, 380
             current_y = 0
             
-            if os.path.exists("sesame-topdown.png"):
-                pil_img1 = Image.open("sesame-topdown.png")
+            if os.path.exists(os.path.join(BASE_DIR, "sesame-topdown.png")):
+                pil_img1 = Image.open(os.path.join(BASE_DIR, "sesame-topdown.png"))
                 ratio1 = min(target_w / pil_img1.size[0], target_h / pil_img1.size[1])
                 new_size1 = (int(pil_img1.size[0] * ratio1), int(pil_img1.size[1] * ratio1))
                 pil_img1 = pil_img1.resize(new_size1, Image.Resampling.LANCZOS)
@@ -108,8 +128,8 @@ class SesameStudioApp:
                 self.canvas.create_image(380, current_y, image=self.robot_image1, anchor="n")
                 current_y += new_size1[1]
             
-            if os.path.exists("sesame-angle-guide.png"):
-                pil_img2 = Image.open("sesame-angle-guide.png")
+            if os.path.exists(os.path.join(BASE_DIR, "sesame-angle-guide.png")):
+                pil_img2 = Image.open(os.path.join(BASE_DIR, "sesame-angle-guide.png"))
                 ratio2 = min(target_w / pil_img2.size[0], target_h / pil_img2.size[1])
                 new_size2 = (int(pil_img2.size[0] * ratio2), int(pil_img2.size[1] * ratio2))
                 pil_img2 = pil_img2.resize(new_size2, Image.Resampling.LANCZOS)
@@ -122,13 +142,13 @@ class SesameStudioApp:
         except ImportError:
             try:
                 y_pos = 0
-                if os.path.exists("sesame-topdown.png"):
-                    self.robot_image1 = tk.PhotoImage(file="sesame-topdown.png").subsample(5, 5)
+                if os.path.exists(os.path.join(BASE_DIR, "sesame-topdown.png")):
+                    self.robot_image1 = tk.PhotoImage(file=os.path.join(BASE_DIR, "sesame-topdown.png")).subsample(5, 5)
                     self.canvas.create_image(380, y_pos, image=self.robot_image1, anchor="n")
                     y_pos += self.robot_image1.height()
                 
-                if os.path.exists("sesame-angle-guide.png"):
-                    self.robot_image2 = tk.PhotoImage(file="sesame-angle-guide.png").subsample(5, 5)
+                if os.path.exists(os.path.join(BASE_DIR, "sesame-angle-guide.png")):
+                    self.robot_image2 = tk.PhotoImage(file=os.path.join(BASE_DIR, "sesame-angle-guide.png")).subsample(5, 5)
                     self.canvas.create_image(380, y_pos, image=self.robot_image2, anchor="n")
                     y_pos += self.robot_image2.height()
                 
@@ -227,7 +247,8 @@ class SesameStudioApp:
         
         self.code_text.insert(tk.END, f"delay({delay});\n\n")
         self.code_text.see(tk.END)
-        self.status_label.config(text="Frame added successfully")
+        self.frame_count += 1
+        self.status_label.config(text=f"Frame {self.frame_count} added successfully")
 
     def copy_code(self):
         code = self.code_text.get("1.0", tk.END)
@@ -237,7 +258,36 @@ class SesameStudioApp:
         
     def clear_code(self):
         self.code_text.delete("1.0", tk.END)
+        self.frame_count = 0
         self.status_label.config(text="Code cleared")
+
+    def _add_hover(self, btn):
+        base = btn.cget("bg")
+        btn.bind("<Enter>", lambda e: btn.config(bg=self._lighten(base)))
+        btn.bind("<Leave>", lambda e: btn.config(bg=base))
+
+    @staticmethod
+    def _lighten(hex_color, amount=25):
+        r, g, b = (int(hex_color[i:i + 2], 16) for i in (1, 3, 5))
+        return "#%02x%02x%02x" % tuple(min(255, c + amount) for c in (r, g, b))
+
+    def undo_frame(self):
+        text = self.code_text.get("1.0", tk.END)
+        idx = text.rfind("// Frame")
+        if idx == -1:
+            self.status_label.config(text="Nothing to undo")
+            return
+        line = text.count(chr(10), 0, idx) + 1
+        self.code_text.delete(f"{line}.0", tk.END)
+        self.frame_count = max(0, self.frame_count - 1)
+        self.status_label.config(text="Last frame removed")
+
+    def save_code(self):
+        path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text", "*.txt"), ("All files", "*.*")], initialfile="sesame-animation.txt")
+        if path:
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(self.code_text.get("1.0", tk.END))
+            self.status_label.config(text=f"Saved to {path}")
 
     def show_help(self):
         help_win = tk.Toplevel(self.root)

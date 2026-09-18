@@ -359,10 +359,90 @@ const char index_html[] PROGMEM = R"rawliteral(
         margin: 0;
       }
     }
+    /* ===== Visual polish layer ===== */
+    body {
+      background:
+        radial-gradient(circle at 15% 0%, var(--content-color-glow), transparent 45%),
+        radial-gradient(circle at 90% 100%, rgba(102, 217, 239, 0.12), transparent 40%),
+        linear-gradient(160deg, #07070d, #14142b);
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+    .hero { margin: 8px 0 6px 0; }
+    .hero h2 {
+      margin: 0;
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: linear-gradient(90deg, #fff, var(--content-color));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: none;
+    }
+    .hero .tagline { font-size: 13px; color: #8a8fa8; letter-spacing: 2px; text-transform: uppercase; }
+    .command-queue {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 999px;
+      border: 1px solid #2d2d44;
+      background: rgba(255,255,255,0.04);
+      transition: all 0.2s;
+    }
+    .command-queue.full { border-color: #ff6b6b; background: rgba(255,107,107,0.12); }
+    .section {
+      background: rgba(22, 22, 38, 0.65);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+    }
+    .section-title::before {
+      content: "";
+      display: inline-block;
+      width: 8px; height: 8px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background: var(--content-color);
+      box-shadow: 0 0 10px var(--content-color);
+    }
+    button { transition: transform 0.12s, box-shadow 0.2s, filter 0.2s; }
+    button:hover { filter: brightness(1.12); }
+    .dpad button {
+      background: linear-gradient(145deg, #2b2b44, #1c1c30);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+    }
+    .dpad button:active {
+      background: linear-gradient(145deg, var(--content-color), var(--content-color-dark));
+      box-shadow: 0 0 22px var(--content-color-glow);
+    }
+    .btn-pose {
+      border-radius: 14px;
+      font-weight: 600;
+      box-shadow: 0 4px 14px var(--content-color-glow);
+    }
+    .btn-pose:hover { transform: translateY(-2px); }
+    .btn-stop-all { animation: pulse 2.4s infinite; }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(230,57,70,0.5); }
+      70%  { box-shadow: 0 0 0 14px rgba(230,57,70,0); }
+      100% { box-shadow: 0 0 0 0 rgba(230,57,70,0); }
+    }
+    .section, .settings-content { animation: fadeUp 0.5s ease both; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .gamepad-status::before { content: "\1F3AE  "; }
+    .footer { margin: 26px 0 8px; font-size: 12px; color: #5d6078; }
   </style>
 </head>
 <body>
-  <h2>Sesame Controller</h2>
+  <div class="hero">
+    <h2>&#129302; Sesame Controller</h2>
+    <div class="tagline">Open-source quadruped robot</div>
+  </div>
   <div class="command-queue" id="queueStatus">Command Queue: 0/3</div>
   
   <div class="sections-container">
@@ -512,6 +592,8 @@ const char index_html[] PROGMEM = R"rawliteral(
       <button class="btn-close" onclick="closeMotorControl()">Close</button>
     </div>
   </div>
+
+  <div class="footer">Sesame Robot &middot; built with &hearts; on ESP32</div>
 
 <script>
 // Command queue management - max 3 commands

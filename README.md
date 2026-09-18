@@ -1,92 +1,123 @@
-# The Sesame Robot Project 
-___
-![License](https://img.shields.io/badge/License-APACHE2.0-yellow)
-![Microcontroller](https://img.shields.io/badge/Microcontroller-ESP32-blue)
-![Firmware](https://img.shields.io/badge/Firmware-C%2B%2B-blue?logo=c%2B%2B)
-![IDE](https://img.shields.io/badge/IDE-Arduino-00979D?logo=arduino&logoColor=white)
-![GitHub stars](https://img.shields.io/github/stars/dorianborian/sesame-robot?style=social)
-![GitHub forks](https://img.shields.io/github/forks/dorianborian/sesame-robot?style=social)
+<div align="center">
+
+# 🤖 Sesame Robot
+
+### Your new best friend — an open-source, 3D-printed, ESP32 quadruped with a face.
+
+![License](https://img.shields.io/badge/License-Apache_2.0-yellow?style=for-the-badge)
+![ESP32](https://img.shields.io/badge/ESP32-Powered-blue?style=for-the-badge&logo=espressif&logoColor=white)
+![Arduino](https://img.shields.io/badge/Arduino-C%2B%2B-00979D?style=for-the-badge&logo=arduino&logoColor=white)
+![Python](https://img.shields.io/badge/Sesame_Studio-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Stars](https://img.shields.io/github/stars/soham0777/sesame-robot?style=for-the-badge)
+![Forks](https://img.shields.io/github/forks/soham0777/sesame-robot?style=for-the-badge)
+
+<img width="100%" alt="sesame-cover" src="https://github.com/user-attachments/assets/f0cc6ad0-135b-4515-8750-900f224ed7ae" />
+
+<a href="https://www.youtube.com/watch?v=NIgoQVQF_Ng"><img src="https://github.com/user-attachments/assets/1663e022-0680-4053-97b4-53e669a6f07d" width="49%" alt="tutorial-button"></a>
+<a href="https://discord.gg/XDXkhQd8bC"><img src="https://github.com/user-attachments/assets/378fcb48-5b12-4b46-9dcb-452432d49913" width="49%" alt="discord-button"></a>
+
+**[Build it](#-getting-started) · [Features](#-features) · [Faces](#-expressive-faces) · [Software](#-software--firmware) · [Contribute](#-contributing)**
+
+</div>
+
+---
 
 > [!NOTE]
 > **Hardware Replication & Makerspace Bring-Up by Soham Kadu**:  
 > This repository hosts the firmware, CAD files, and V3.1 power distribution PCB designs for the open-source Sesame Quadruped Robot originally developed by [Dorian Borian](https://github.com/dorianborian/sesame-robot).  
 > **Physical 3D printing, circuit assembly, servo calibration, and testing conducted by Soham Kadu** at Sanjivani Tinkerers' Lab.
 
-<img width="100%" height="728" alt="sesame-cover" src="https://github.com/user-attachments/assets/f0cc6ad0-135b-4515-8750-900f224ed7ae" />
+## 👋 About
 
-<p align="center">
-  <a href="https://www.youtube.com/watch?v=NIgoQVQF_Ng">
-    <img src="https://github.com/user-attachments/assets/1663e022-0680-4053-97b4-53e669a6f07d" width="49%" alt="tutorial-button">
-  </a>
-  <a href="https://discord.gg/XDXkhQd8bC">
-    <img src="https://github.com/user-attachments/assets/378fcb48-5b12-4b46-9dcb-452432d49913" width="49%" alt="discord-button">
-  </a>
-</p>
+Sesame is an accessible open-source robotics project built on the **ESP32**, with an emphasis on **expression and movement**.
+It is designed for makers and engineers of all skill levels — a friendly first step into walking robots.
 
-___
+| 🔧 You need | 💰 Budget | 🖨️ Tools |
+|---|---|---|
+| Basic soldering skills | ~$50–60 in parts | A 3D printer (PLA) |
+| Basic Arduino IDE knowledge | 8× MG90 servos | 128×64 OLED display |
 
-**Greetings, from your new best friend.**
+This repository has the CAD and STL files, build and wiring guides, distro board PCBs, the firmware, and the Sesame Studio animation composer.
 
-Sesame is an accessible Open-Source robotics project based on the ESP32 microcontroller system, with an emphasis on expression and movement. 
-This project is designed for makers and engineers of all skill levels! Sesame offers a dynamic platform designed to start working with walking robots. 
-To build a sesame robot, you will need basic soldering skills, $50-60 in hardware components, access to a 3D printer, and a basic understanding of Arduino IDE.
+<div align="center">
+<img width="100%" alt="sesame-wakeup-gif" src="https://github.com/user-attachments/assets/a4951195-4253-40a4-a87d-d14fad57ff5f" />
+</div>
 
-This repository contains the CAD design files, STL files, build and wiring guides, and the base/expanded firmware for the ESP32-based controller. 
-There is also some included debugging firmware that may be helpful in getting your Sesame up and running.
+## ✨ Features
 
-## Features
+| | |
+|---|---|
+| 🦿 **Quadruped design** | 8 servos (2 per leg), 8 degrees of freedom |
+| 😊 **Emotive display** | 128×64 OLED face that syncs with movement |
+| 🖨️ **Fully printable** | PLA, minimal supports |
+| 📱 **Phone web UI** | Built-in Access Point with a touch controller and gamepad support |
+| 🌐 **JSON REST API** | Control from Python, JavaScript and more |
+| 🗣️ **Conversational faces** | Talk variants for voice-assistant projects |
+| 🎬 **Sesame Studio** | Desktop composer that generates animation code |
+| 🎙️ **Companion app** | Voice control and advanced interactions |
+| ⌨️ **Serial CLI** | Trigger animations from the serial monitor |
+| 💃 **Pre-programmed emotes** | Walk, wave, dance, swim, pushup, bow and more |
 
-*   **Quadruped Design:** Uses 8 servo motors (2 per leg) to achieve roughly 8 total degrees of freedom.
-*   **Emotive Display:** Features a 128x64 OLED screen acting as a reactive face that syncs with movement.
-*   **Fully Printable:** Designed entirely for 3D printing in PLA with minimal supports.
-*   **Network Connectivity:** Connect to your WiFi network for remote control and API access.
-*   **JSON API:** RESTful API for programmatic control from Python, JavaScript, and more.
-*   **Conversational Faces:** Expressive emotion library with talk variants for voice assistant projects.
-*   **Sesame Studio:** New animation composer software to easily create custom movements.
-*   **Sesame Companion App:** Python application for voice control and advanced interactions.
-*   **Serial CLI:** Control the robot and trigger animations via a Serial Command Line Interface or the web UI.
-*   **Pre-programmed Emotes:** Includes animations for Walking, Waving, Dancing, Pointing, Resting, and more.
+## 😎 Expressive Faces
 
+<div align="center">
+<table>
+<tr><td align="center"><img src="docs/images/sesamefaces/defualt.png" width="100"><br><sub>default</sub></td>
+<td align="center"><img src="docs/images/sesamefaces/walk.png" width="100"><br><sub>walk</sub></td>
+<td align="center"><img src="docs/images/sesamefaces/wave.png" width="100"><br><sub>wave</sub></td>
+<td align="center"><img src="docs/images/sesamefaces/dance.png" width="100"><br><sub>dance</sub></td>
+<td align="center"><img src="docs/images/sesamefaces/swim.png" width="100"><br><sub>swim</sub></td>
+<td align="center"><img src="docs/images/sesamefaces/point.png" width="100"><br><sub>point</sub></td></tr>
+<tr><td align="center"><img src="docs/images/sesamefaces/pushup.png" width="100"><br><sub>pushup</sub></td>
+<td align="center"><img src="docs/images/sesamefaces/bow.png" width="100"><br><sub>bow</sub></td>
+<td align="center"><img src="docs/images/sesamefaces/cute.png" width="100"><br><sub>cute</sub></td>
+<td align="center"><img src="docs/images/sesamefaces/freaky.png" width="100"><br><sub>freaky</sub></td>
+<td align="center"><img src="docs/images/sesamefaces/worm.png" width="100"><br><sub>worm</sub></td>
+<td align="center"><img src="docs/images/sesamefaces/shake.png" width="100"><br><sub>shake</sub></td></tr>
+<tr><td align="center"><img src="docs/images/sesamefaces/shrug.png" width="100"><br><sub>shrug</sub></td>
+<td align="center"><img src="docs/images/sesamefaces/dead.png" width="100"><br><sub>dead</sub></td>
+<td align="center"><img src="docs/images/sesamefaces/crab.png" width="100"><br><sub>crab</sub></td>
+<td align="center"><img src="docs/images/sesamefaces/rest.png" width="100"><br><sub>rest</sub></td>
+<td align="center"><img src="docs/images/sesamefaces/stand.png" width="100"><br><sub>stand</sub></td>
+<td align="center"><img src="docs/images/sesamefaces/walk2.png" width="100"><br><sub>walk2</sub></td></tr>
+</table>
+</div>
 
-## Watch the launch video on YouTube
+## 🧩 How it works
+
+```mermaid
+flowchart LR
+    A[📱 Phone / Browser] -->|Wi-Fi AP or LAN| B(ESP32 Firmware)
+    C[🐍 Companion App / API] -->|JSON REST| B
+    D[🎬 Sesame Studio] -.->|generated C++ frames| B
+    B --> E[8× MG90 Servos]
+    B --> F[🖥️ 128×64 OLED Face]
+```
+
+## 🚀 Getting Started
+
+| Step | What to do |
+|---|---|
+| **1. 🛒 Gather parts** | See the **[Bill of Materials](hardware/bom/README.md)**. |
+| **2. 🖨️ Print** | STLs and the **[Printing Guide](hardware/printing/README.md)** — PLA, minimal supports. |
+| **3. 🔌 Build & wire** | **[Build Guide](docs/build-guide/README.md)** and **[Wiring Guide](docs/wiring-guide/README.md)**. |
+| **4. ⚡ Flash** | Upload from **[firmware/](firmware/README.md)** with Arduino IDE and configure the Wi-Fi AP. |
+| **5. 🎬 Animate** | Design poses in **[Sesame Studio](software/sesame-studio/README.md)**. |
+
+**Controller options:**
+- Microcontroller: Lolin S2 Mini (recommended for DIY), Sesame Distro Board V3 (current, pre-flashed, supports Bambu Lab battery), V2 (legacy, USB-only), or ESP32-DevKitC-32E with Distro Board V1 (legacy)
+- Actuators: 8× 180° MG90 servos
+- Power: 5V 3A (USB-C PD, or battery + buck converter — see BOM)
+
+## 📺 Launch video
 
 <a href="https://www.youtube.com/watch?v=1UDsWkcQZhc"><img src="https://github.com/user-attachments/assets/710cb5a6-163e-47e7-a294-5e2d2ab07627" width="70%" alt="thumb-youtube"></a>
 
-___
-
-## Getting Started
-
-Follow these steps to build your own Sesame Robot:
-
-### 1. Gather Parts 
-Check the **[Bill of Materials (BOM)](hardware/bom/README.md)** for a complete list of required electronics and hardware.
-*   Microcontroller: Lolin S2 Mini (recommended for DIY builds), Sesame Distro Board V3 (Current, pre-flashed, supports Bambu Lab battery), V2 (legacy, USB-only), or ESP32-DevKitC-32E with Distro Board V1 (legacy)
-*   Actuators: 8x MG90 Servos
-*   Power: 5V 3A source (USB-C PD for S2 Mini and V2 Distro Board, or battery + buck converter; see BOM for the Bambu Lab 14500 7.4V 800mAh Li-ion Battery option)
-
-### 2. Print Parts 
-Download the STLs and follow the **[Printing Guide](hardware/printing/README.md)**.
-*   Designed for PLA
-*   Minimal supports required
-
-### 3. Build & Wire 
-Follow the **[Build Guide](docs/build-guide/README.md)** and **[Wiring Guide](docs/wiring-guide/README.md)** to assemble the frame and connect the electronics.
-
-### 4. Flash Firmware 
-Upload the code from the **[Firmware Directory](firmware/README.md)**.
-*   Requires Arduino IDE
-*   Configure WiFi AP settings
-
-### 5. Create Animations 
-Use **[Sesame Studio](software/sesame-studio/README.md)** to visually design poses and sequences for your robot.
-
-<img width="100%" height="728" alt="sesame-wakeup-gif" src="https://github.com/user-attachments/assets/a4951195-4253-40a4-a87d-d14fad57ff5f" />
-
 ---
 
-## Software & Firmware
+## 🧰 Software & Firmware
 
-### Sesame Studio
+### 🎬 Sesame Studio
 Sesame Studio is a standalone desktop application included in `software/sesame-studio/`. It allows you to:
 *   Visually pose the robot using a schematic interface.
 *   Generate C++ code for servo angles automatically.
@@ -95,7 +126,7 @@ Sesame Studio is a standalone desktop application included in `software/sesame-s
 [**> Go to Sesame Studio**](software/sesame-studio/README.md)
 
 
-### Sesame Simulator
+### 🧪 Sesame Simulator
 The Sesame Simulator, created by Jay Li, is a Rust-based 3D simulation environment for testing Sesame's movements and kinematics in a virtual space. It features:
 *   **Physics-based Simulation:** Test walking and balance without hardware.
 *   **Web-based Interface:** Run the simulator directly in your browser.
@@ -103,7 +134,7 @@ The Sesame Simulator, created by Jay Li, is a Rust-based 3D simulation environme
 
 [**> Go to Sesame Simulator**](https://one-for-all.github.io/sesame-robot-sim/)
 
-### Sesame Companion App
+### 🎙️ Sesame Companion App
 The Sesame Companion App is a Python-based application that enables advanced control and interaction with your robot over your local network. It leverages the new JSON API and network mode features to provide:
 *   **Voice Assistant Integration:** Control Sesame with voice commands and see real-time emotional expressions.
 *   **Remote Control:** Command your robot from anywhere on your local network.
@@ -114,7 +145,7 @@ The Companion App works with robots running the latest firmware with network mod
 
 [**> Go to Sesame Companion App Repository**](https://github.com/dorianborian/sesame-companion-app)
 
-### Firmware
+### ⚡ Firmware
 The ESP32 firmware (`sesame-firmware-main.ino`) handles the kinematics, face display, and WiFi control interface.
 *   **Web UI:** Control the robot from your phone via the built-in Access Point.
 *   **Custom Faces:** Add your own bitmaps (guide in firmware docs).
@@ -124,16 +155,28 @@ The ESP32 firmware (`sesame-firmware-main.ino`) handles the kinematics, face dis
 
 ---
 
-## Contributing
-
-This robot is a platform for building new features, cosmetics, tools, and ideas. Since the current firmware is a basic implementation, pull requests are very welcome for:
-*   Kinematics improvements
-*   New animations
-*   Improved Web UI/UX
-*   Sensor integration (Ultrasonic, Gyro, etc.)
-
-I would also love to see forks of this project with new hardware, software, faces, etc. Be sure to send me a message if you end up building one, and I might feature you on my website or channel!
-  
 ---
 
-*Created by [Dorian Todd](https://www.doriantodd.com/). Need help with your Sesame Robot? Send me a message on Discord, my username is "starphee"*
+## 🤝 Contributing
+
+This robot is a platform for new features, cosmetics, tools and ideas. Pull requests are very welcome for:
+
+- 🦴 Kinematics improvements
+- 💃 New animations
+- 🎨 Improved Web UI/UX
+- 📡 Sensor integration (ultrasonic, gyro, etc.)
+
+Forks with new hardware, software or faces are encouraged too — share what you build!
+
+## 📜 License
+
+Released under the [Apache 2.0 License](LICENSE).
+
+---
+
+<div align="center">
+
+*Original project created by [Dorian Todd](https://www.doriantodd.com/) — help on Discord: **starphee**.*
+*This fork is maintained by [soham0777](https://github.com/soham0777).* ⭐ Star the repo if you like it!
+
+</div>
